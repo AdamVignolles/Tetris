@@ -1,0 +1,48 @@
+cahier des charges : Jeux du tetris en python
+
+Objectif : Créer un jeu Tetris en utilisant Python et la bibliothèque Pygame en respectant les principes de la programmation orientée objet.
+
+Fonctionnalités principales :
+
+    Interface utilisateur :
+
+        Afficher une fenêtre de jeu avec une zone de jeu principale.
+        Afficher les prochaines pièces (au moins 1).
+        Afficher un score.
+        Afficher des contrôles pour jouer.(pause, gauche, droite, rotation)
+
+    Pièces de jeu :
+
+        Créer sept types de pièces Tetris différentes (I, J, L, O, T, S, Z).
+        Gérer la rotation des pièces.
+        Gérer la chute des pièces.
+        Gérer la collision des pièces avec d'autres pièces ou le bord de la zone de jeu.
+
+    Contrôles :
+
+        Utiliser les touches du clavier pour déplacer les pièces (gauche, droite, bas) et les faire tourner.
+        Permettre la pause du jeu.
+
+    Gameplay :
+
+        Les pièces tombent automatiquement à une vitesse donnée.
+        Les lignes complètes disparaissent et donnent des points.
+        Le jeu se termine lorsque les pièces atteignent le haut de la zone de jeu.
+
+    Conditions de victoire :
+
+        Afficher un message de victoire lorsque le joueur atteint un certain score prédéfini.
+        Programmation orientée objet :
+
+    Créez des classes pour les éléments clés du jeu :
+
+        Classe Piece pour représenter les pièces Tetris.
+        Classe ZoneDeJeu pour gérer la grille de jeu.
+        Classe Jeu pour gérer la logique du jeu.
+        Utilisez l'héritage et la composition pour organiser efficacement le code.
+
+    Bonus :
+
+        Effets sonores : Ajoutez des effets sonores pour la rotation des pièces, la suppression de lignes, etc.
+
+        Niveaux de difficulté : Augmentez la vitesse de descente des pièces en fonction du score.
