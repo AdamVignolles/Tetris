@@ -20,25 +20,40 @@ Fonctionnalités principales :
 
     Contrôles :
 
-        Utiliser les touches du clavier pour déplacer les pièces (gauche, droite, bas) et les faire tourner.
-        Permettre la pause du jeu.
+        Utiliser les touches du clavier pour déplacer les pièces (gauche, droite) et les faire tourner (espace).
+        Permettre la pause du jeu (enter).
 
     Gameplay :
 
         Les pièces tombent automatiquement à une vitesse donnée.
-        Les lignes complètes disparaissent et donnent des points.
+        Les lignes complètes disparaissent et donnent des points. (1 ligne = 100 points, 2 lignes = 300 points, 3 lignes = 500 points, 4 lignes = 800 points)
         Le jeu se termine lorsque les pièces atteignent le haut de la zone de jeu.
 
     Conditions de victoire :
 
         Afficher un message de victoire lorsque le joueur atteint un certain score prédéfini.
-        Programmation orientée objet :
+
+
+
+Programmation orientée objet :
 
     Créez des classes pour les éléments clés du jeu :
 
-        Classe Piece pour représenter les pièces Tetris.
-        Classe ZoneDeJeu pour gérer la grille de jeu.
-        Classe Jeu pour gérer la logique du jeu.
+        Classe Piece pour représenter les pièces Tetris:
+            Attributs : position, rotation.
+            Méthodes : déplacer, tourner, tomber, collision.
+            héritage : Créez une classe pour chaque type de pièce qui hérite de la classe Piece:
+                Classe PieceI, Classe PieceJ, Classe PieceL, Classe PieceO, Classe PieceT, Classe PieceS, Classe PieceZ:
+                    Attributs : type de pièce, couleur
+
+
+        Classe ZoneDeJeu pour gérer la grille de jeu:
+            Attributs : grille, score.
+            Méthodes : ajouter, supprimer_ligne, déplacer, tourner, tomber, collision.
+
+        Classe Jeu pour gérer la logique du jeu:
+            Attributs : zone de jeu, pièce actuelle, pièce suivante, score.
+            Méthodes :  vérifier la victoire, affichage
         Utilisez l'héritage et la composition pour organiser efficacement le code.
 
     Bonus :
