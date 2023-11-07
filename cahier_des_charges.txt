@@ -61,3 +61,20 @@ Programmation orientée objet :
         Effets sonores : Ajoutez des effets sonores pour la rotation des pièces, la suppression de lignes, etc.
 
         Niveaux de difficulté : Augmentez la vitesse de descente des pièces en fonction du score.
+
+
+
+representaiton:
+
+classe piece -> sprite pygame
+-> deplacement
+-> colision avec piece de le gille (contenu vaut une couleur)
+classe grille -> affiche le contenu
+-> transformation du sprite dans la grille lors de la colision
+-> garder la couleur dans le grille
+-> representer un rect selon la couleur
+classe jeu:
+-> gere l'avencement
+-> les events
+-> le score ( une classe ?)
+-> menu de lencement de la partie ( une classe ? )
