@@ -70,7 +70,7 @@ classe piece -> sprite pygame
 -> deplacement
 -> colision avec piece de le gille (contenu vaut une couleur)
 classe grille -> affiche le contenu
--> transformation du sprite dans la grille lors de la colision
+-> transformation du sprite dans la grille lors de la colision ( lors que piece trouve colision : envoie son type, forme, couleur )
 -> garder la couleur dans le grille
 -> representer un rect selon la couleur
 classe jeu:
