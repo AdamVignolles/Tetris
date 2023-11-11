@@ -78,3 +78,62 @@ classe jeu:
 -> les events
 -> le score ( une classe ?)
 -> menu de lencement de la partie ( une classe ? )
+
+
+
+interfce publique:
+
+classe piece:
+-> deplacement
+    -> gauche 
+    -> droite
+    -> rotation
+-> colision piece (argument grille) -> renvoie un booleen
+    -> avec piece de la grille
+
+classe grille:
+-> affiche le contenu
+-> transformation du sprite dans la grille lors de la colision ( lors que piece trouve colision : envoie son type, forme, couleur )
+-> garder la couleur dans le grille
+-> representer un rect selon la couleur
+-> supprimer ligne complete
+-> faire tomber les autre ligne
+-> grille pleine -> game over ( renvoie un booleen , set json file )
+
+classe game:
+__init__:
+    -> score
+    -> piece actuelle
+    -> piece suivante
+    -> grille
+    -> vitesse de descente
+    -> niveau de difficulte
+    -> menu : booleen
+    -> game over : booleen
+    -> pause : booleen
+
+game:
+    -> events
+    -> affichage (display.flip)
+
+classe affichage:
+    -> affichage du menu
+    -> affichage du game over
+    -> affichage du score
+    -> affichage de la piece suivante
+    -> affichage de la grille
+    -> affichage de la pause
+
+classe score:
+    -> score
+    -> points 1 ligne
+    -> points 2 lignes
+    -> points 3 lignes
+    -> points 4 lignes
+    -> get score
+    -> set score (ligne complete)
+
+classe menu:
+    -> affichage du menu
+    -> bouton play
+    -> meilleur score( json file )
