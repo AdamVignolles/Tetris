@@ -48,7 +48,7 @@ class Tetromino():
     def __init__(self, grille, shape):
         self.grille = grille #call an object Tetris
         self.shape = shape #the shape from the TETROMINOES dict
-        self.color = color[shape] #get the color of the tetrominoes
+        self.color = COLOR[shape] #get the color of the tetrominoes
         self.block = [Block(self, pos) for pos in TETROMINOES[self.shape]]
         #list of all the blocks coords of the tetromino
         
