@@ -2,6 +2,7 @@ import pygame
 from grille import Grille
 from affichage import Affichage
 from score import Score
+from piece import Tetromino
 
 class Game:
     def __init__(self):
@@ -22,7 +23,7 @@ class Game:
         icon = pygame.image.load("assets/img/tetris.png")
         pygame.display.set_icon(icon)
 
-        
+        self.Tetro = Tetromino(self.grille, 'J')
 
         running = True
         while running:
@@ -41,6 +42,9 @@ class Game:
                 self.affichage.afficher_line_level(self.screen, self.score.get_line(), self.score.get_level())
                 if self.in_pause:
                     self.affichage.afficher_pause(self.screen)
+                
+                for block in self.Tetro.block:
+                    self.screen.blit(block.image, block.rect)
 
 
             for event in pygame.event.get():
@@ -57,10 +61,10 @@ class Game:
                         self.in_pause = not self.in_pause
 
                     if event.key == pygame.K_LEFT:
-                        pass
+                        self.Tetro.move_tetromino('left')
 
                     if event.key == pygame.K_RIGHT:
-                        pass
+                        self.Tetro.move_tetromino('right')
 
                     if event.key == pygame.K_SPACE:
                         pass

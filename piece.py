@@ -27,13 +27,13 @@ class Block():
         self.pos = pos #pos in the main list
         
         self.image = pg.Surface([TILE_SIZE, pos[1] * TILE_SIZE])
-        self.image = fill('green') #Display of the block
+        self.image = pg.fill('green') #Display of the block
         
         self.rect = self.image.get_rect()
     
     def set_pos(self):
         """Calculating the new position of the image of the block"""
-        self.rect.topleft = pos * TILE_SIZE
+        self.rect.topleft = self.pos * TILE_SIZE
         
     def update(self):
         """Update the position of the display of the block"""
@@ -41,7 +41,7 @@ class Block():
     
     def rotate(self):
         """Rotate the block according to the whole tetromino"""
-        pass #Work in Progress, it's  a pain
+        pass #Work in Progress, it's  a pain, help
     
     def forward(self):
         """Move the block bellow"""
@@ -57,61 +57,64 @@ class Block():
     
 class Tetromino():
     def __init__(self, grille, shape):
-        self.grille = Grille #call an object Tetris
+        self.grille = grille #call an object Tetris
         self.shape = shape #the shape from the TETROMINOES dict
         self.block = [Block(self, pos) for pos in TETROMINOES[self.shape]]
         #list of all the blocks coords of the tetromino
         
     def put_middle(self):
         for block in self.block:
-            if block[0] < 0 :
+            if block.pos[0] < 0 :
                 for block in self.block:
-                    block[0] += 1
-            if block[1] < 0 :
-                block[1] += 1
+                    block.pos[0] += 1
+            if block.pos[1] < 0 :
+                block.pos[1] += 1
         for block in self.block:
-            block[0] += MIDDLE
+            block.pos[0] += MIDDLE
             
     def move_tetromino(self,direction):
         """Move the tetrominoes in one given direction"""
         move_piece = MOVES[direction] #Move in one given direction from MOVES
         if direction == 'down':
-            if collision_down == True :
+            if self.collide_down() == True :
                 for block in self.block: #Apply the movement to all tetrimino blocks
-                    block.pos = move_piece #modify the index of the block
+                    block.pos[1] = move_piece #modify the index of the block
         if direction == 'left':
-            if collision_left == True :
+            if self.collide_left() == True :
                 for block in self.block: #Apply the movement to all tetrimino blocks
-                    block.pos = move_piece
+                    block.pos[0] = move_piece #go left
         if direction == 'right':
-            if collision_down == True :
+            if self.collide_down() == True :
                 for block in self.block: #Apply the movement to all tetrimino blocks
-                    block.pos = move_piece
+                    block.pos[0] = move_piece #go right
                 
     def collide_down(self):
         """Verifie les collisions avec l'index en dessous de la liste grille de Grille"""
         for block in self.block:
-            if block[1] + 1 >= len(Grille.grille) \
-                or Grille.grille[block[1]] != None:
+            if block.pos[1] + 1 >= len(Grille.grille) \
+                or Grille.grille[block.pos[1]] != None:
                 return False
+        return True
             
     def collide_right(self):
         """Verify the collision on the right"""
         for block in self.block:
-            if block[0] + 1 >= len(Grille.grille[0]) \
-               or Grille.grille[block[0]+1] != None:
+            if block.pos[0] + 1 >= len(Grille.grille[0]) \
+               or Grille.grille[block.pos[0]+1] != None:
                 return False
-            
+        return True
+    
     def collide_left(self):
         """Verify the collision on the left"""
-        for block in self.block:
-            if block[0] - 1 < len(Grille.grille[0]) \
-               or Grille.grille[block[0]-1] != None:
+        for block in self.block: #verify for each blocks
+            if block.pos[0] - 1 < len(Grille.grille[0]) \
+                or Grille.grille[block.pos[0]-1] != None: 
                 return False
-            
+        return True
+    
     def update(self):
         """Update the tetromino going down"""
-        if game_on == True : #Might be changed if wrong variabl
-            self.move(direction = 'down')
-            pg.time.wait(200) #Regulate the speed of the movement
-            pg.time.wait(200) #Regulate the speed of the movement
+        if game_on == True :
+            if self.collide_down() == False :
+                self.move(direction = 'down') #the tetromino always goes down
+                pg.time.wait(200) #Regulate the speed of the movement
