@@ -20,7 +20,13 @@ MOVES = {'left' : -1,
          'right' : 1,
          'down' : 1,
          'up' : -1} #up might be useless
-COLOR = {'T':'insert color here'}
+COLOR = {'T': (255,0,0),
+         'O': (0,255,0),
+         'J': (0,0,255),
+         'L': (255,255,0),
+         'I': (0,255,255),
+         'S': (255,0,255),
+         'Z': (255,255,255)}
 class Block():
     def __init__(self,tetromino, color, pos):
         self.tetromino = tetromino #call an object Tetromino
@@ -126,7 +132,7 @@ class Tetromino():
         accepted_pos = [[[x, y] for x in range(len(grille[0])-1) if grille[y][x] == 0] for y in range(len(grille)-1)]
         accepted_pos = [j for sub in test for j in sub] #simplify to list of list
         return accepted_pos
-        
+    
     def update(self):
         """Update the tetromino going down"""
         if game_on == True :
