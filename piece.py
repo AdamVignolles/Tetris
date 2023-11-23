@@ -34,7 +34,7 @@ class Block():
         self.color = color #color of the block
         
         self.image = pg.Surface((TILE_SIZE, TILE_SIZE)) #create a surface
-
+        self.image.fill(self.color)
         
         self.rect = self.image.get_rect()
     
