@@ -20,14 +20,21 @@ MOVES = {'left' : -1,
          'right' : 1,
          'down' : 1,
          'up' : -1} #up might be useless
-COLOR = {'T':'insert color here'}
+COLOR = {'T': (255,0,0),
+         'O': (0,255,0),
+         'J': (0,0,255),
+         'L': (255,255,0),
+         'I': (0,255,255),
+         'S': (255,0,255),
+         'Z': (255,255,255)}
 class Block():
     def __init__(self,tetromino, color, pos):
         self.tetromino = tetromino #call an object Tetromino
         self.pos = pos #pos in the main list
+        self.color = color #color of the block
         
-        self.image = pg.Surface([TILE_SIZE, pos[1] * TILE_SIZE])
-        self.image = pg.fill(color) #Display of the block
+        self.image = pg.Surface((TILE_SIZE, TILE_SIZE)) #create a surface
+
         
         self.rect = self.image.get_rect()
     
@@ -49,7 +56,7 @@ class Tetromino():
         self.grille = grille #call an object Tetris
         self.shape = shape #the shape from the TETROMINOES dict
         self.color = COLOR[shape] #get the color of the tetrominoes
-        self.block = [Block(self, pos) for pos in TETROMINOES[self.shape]]
+        self.block = [Block(self,self.color, pos) for pos in TETROMINOES[self.shape]]
         #list of all the blocks coords of the tetromino
         
     def put_middle(self):

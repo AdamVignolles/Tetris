@@ -7,7 +7,7 @@ class Button():
         self.font = font
         self.base_color = base_color
         self.text_input = text_input
-        self.text = self.text_input.font.render(self.text_input, True, self.base_color)
+        self.text = self.font.render(self.text_input, True, self.base_color)
         if self.image is None :
             self.image = self.text
         self.image_rect = self.image.get_rect(center=(self.x_pos, self.y_pos))
@@ -16,9 +16,11 @@ class Button():
     def update(self, screen):
         if self.image is not None:
             screen.blit(self.image, self.image_rect)
-        screen.blit(self.text, self.text_rect)
+        else:
+            screen.blit(self.text, self.text_rect)
     
     def press_button(self, position):
+        print(position, range(self.image_rect.left, self.image_rect.right), range(self.image_rect.top, self.image_rect.bottom))
         if position[0] in range(self.image_rect.left, self.image_rect.right) and \
            position[1] in range(self.image_rect.top, self.image_rect.bottom):
             return True
@@ -26,18 +28,21 @@ class Button():
     
 class Menu():
     def __init__(self):
-        self.background = pygame.image.load("assets/Background.png")
+        #self.background = pg.image.load("assets/Background.png")
+        pg.init()
+
         self.mouse_pos = pg.mouse.get_pos()
         
-        self.menu_text = self.get_font(100).render("TETRIS", True, 'white')
-        self.menu_rect = self.menu_text.get_rect(center=(640, 100))
+        self.menu_text = pg.font.SysFont("Comic Sans MS", 100).render("Tetris", True, 'white')
+        self.menu_rect = self.menu_text.get_rect(center=(425, 100))
         
-        self.play_button = Button(image=pg.image.load('insert image here'), \
-                                  pos=(640,250), text_input="PLAY",\
-                                  font=self.get_font(75), base_color='white')
+        self.play_button = Button(image=pg.image.load('assets/play_button.png'), \
+                                  pos=(425,300), text_input="PLAY",\
+                                  font=pg.font.SysFont("Comic Sans MS", 20), base_color='white')
     def check_button_input(self):
         for event in pg.event.get():
             if event.type == pg.MOUSEBUTTONDOWN:
+                self.mouse_pos = pg.mouse.get_pos()
                 return self.play_button.press_button(self.mouse_pos)
             if event.type == pg.QUIT:
                 pg.quit()
@@ -45,6 +50,6 @@ class Menu():
     def get_font(self, size):
         pg.font.Font(pg.font.get_default_font(), size)
         
-    def update_menu(self):
-        SCREEN.blit(self.background, (0,0))
-        SCREEN.blit(menu_text, menu_rect)
+    def update_menu(self, screen):
+        #screen.blit(self.background, (0,0))
+        screen.blit(self.menu_text, self.menu_rect)
