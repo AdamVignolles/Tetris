@@ -24,6 +24,147 @@
     </header>
 
     <main>
+        <p>
+            cahier des charges : Jeux du tetris en python <br>
+            <br>
+Objectif : Créer un jeu Tetris en utilisant Python et la bibliothèque Pygame en respectant les principes de la programmation orientée objet.<br>
+<br>
+Fonctionnalités principales :<br>
+<br>
+    Interface utilisateur :<br>
+    <br>
+        Afficher une fenêtre de jeu avec une zone de jeu principale.<br>
+        Afficher les prochaines pièces (au moins 1).<br>
+        Afficher un score.<br>
+        Afficher des contrôles pour jouer.(pause, gauche, droite, rotation)<br>
+        <br>
+    Pièces de jeu :<br>
+    <br>
+        Créer sept types de pièces Tetris différentes (I, J, L, O, T, S, Z).<br>
+        Gérer la rotation des pièces.<br>
+        Gérer la chute des pièces.<br>
+        Gérer la collision des pièces avec d'autres pièces ou le bord de la zone de jeu.<br>
+        <br>
+    Contrôles :<br>
+    <br>
+        Utiliser les touches du clavier pour déplacer les pièces (gauche, droite) et les faire tourner (espace).<br>
+        Permettre la pause du jeu (enter).<br>
+        <br>
+    Gameplay :<br>
+    <br>
+        Les pièces tombent automatiquement à une vitesse donnée.<br>
+        Les lignes complètes disparaissent et donnent des points. (1 ligne = 100 points, 2 lignes = 300 points, 3 lignes = 500 points, 4 lignes = 800 points)<br>
+        Le jeu se termine lorsque les pièces atteignent le haut de la zone de jeu.<br>
+        <br>
+    Conditions de victoire :<br>
+    <br>
+        Afficher un message de victoire lorsque le joueur atteint un certain score prédéfini.<br>
+        <br>
+        <br>
+        <br>
+Programmation orientée objet :<br>
+<br>
+    Créez des classes pour les éléments clés du jeu :<br>
+    <br>
+        Classe Piece pour représenter les pièces Tetris:<br>
+            Attributs : position, rotation.<br>
+            Méthodes : déplacer, tourner, tomber, collision.<br>
+            héritage : Créez une classe pour chaque type de pièce qui hérite de la classe Piece:<br>
+                Classe PieceI, Classe PieceJ, Classe PieceL, Classe PieceO, Classe PieceT, Classe PieceS, Classe PieceZ:<br>
+                    Attributs : type de pièce, couleur<br>
+                    <br>
+                    <br>
+        Classe ZoneDeJeu pour gérer la grille de jeu:<br>
+            Attributs : grille, score.<br>
+            Méthodes : ajouter, supprimer_ligne, déplacer, tourner, tomber, collision.<br>
+            <br>
+        Classe Jeu pour gérer la logique du jeu:<br>
+            Attributs : zone de jeu, pièce actuelle, pièce suivante, score.<br>
+            Méthodes :  vérifier la victoire, affichage<br>
+        Utilisez l'héritage et la composition pour organiser efficacement le code.<br>
+        <br>
+    Bonus :<br>
+    <br>
+        Effets sonores : Ajoutez des effets sonores pour la rotation des pièces, la suppression de lignes, etc.<br>
+        <br>
+        Niveaux de difficulté : Augmentez la vitesse de descente des pièces en fonction du score.<br>
+        <br>
+        <br>
+
+representaiton:<br>
+<br>
+classe piece -> sprite pygame<br>
+-> deplacement<br>
+-> colision avec piece de le gille (contenu vaut une couleur)<br>
+classe grille -> affiche le contenu<br>
+-> transformation du sprite dans la grille lors de la colision ( lors que piece trouve colision : envoie son type, forme, couleur )<br>
+-> garder la couleur dans le grille<br>
+-> representer un rect selon la couleur<br>
+classe jeu:<br>
+-> gere l'avencement<br>
+-> les events<br>
+-> le score ( une classe ?)<br>
+-> menu de lencement de la partie ( une classe ? )<br>
+<br>
+<br>
+
+interfce publique:<br>
+<br>
+classe piece:<br>
+-> deplacement<br>
+    -> gauche <br>
+    -> droite<br>
+    -> rotation<br>
+-> colision piece (argument grille) -> renvoie un booleen<br>
+    -> avec piece de la grille<br>
+    <br>
+classe grille:<br>
+-> affiche le contenu<br>
+-> transformation du sprite dans la grille lors de la colision ( lors que piece trouve colision : envoie son type, forme, couleur )<br>
+-> garder la couleur dans le grille<br>
+-> representer un rect selon la couleur<br>
+-> supprimer ligne complete<br>
+-> faire tomber les autre ligne<br>
+-> grille pleine -> game over ( renvoie un booleen , set json file )<br>
+<br>
+classe game:<br>
+__init__:<br>
+    -> score<br>
+    -> piece actuelle<br>
+    -> piece suivante<br>
+    -> grille<br>
+    -> vitesse de descente<br>
+    -> niveau de difficulte<br>
+    -> menu : booleen<br>
+    -> game over : booleen<br>
+    -> pause : booleen<br>
+    <br>
+game:<br>
+    -> events<br>
+    -> affichage (display.flip)<br>
+    <br>
+classe affichage:<br>
+    -> affichage du menu<br>
+    -> affichage du game over<br>
+    -> affichage du score<br>
+    -> affichage de la piece suivante<br>
+    -> affichage de la grille<br>
+    -> affichage de la pause<br>
+    <br>
+classe score:<br>
+    -> score<br>
+    -> points 1 ligne<br>
+    -> points 2 lignes<br>
+    -> points 3 lignes<br>
+    -> points 4 lignes<br>
+    -> get score<br>
+    -> set score (ligne complete)<br>
+    <br>
+classe menu:<br>
+    -> affichage du menu<br>
+    -> bouton play<br>
+    -> meilleur score( json file )<br>
+        </p>
     </main>
 
     <footer></footer>
