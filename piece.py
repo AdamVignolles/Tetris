@@ -32,8 +32,8 @@ class Block():
         self.tetromino = tetromino #call an object Tetromino
         self.pos = pos #pos in the main list
         
-        self.image = pg.Surface([TILE_SIZE, pos[1] * TILE_SIZE])
-        self.image = pg.fill(color) #Display of the block
+        self.image = pg.Surface((TILE_SIZE, TILE_SIZE))
+        self.image.fill(color)
         
         self.rect = self.image.get_rect()
     
@@ -54,7 +54,7 @@ class Tetromino():
         self.grille = grille #call an object Tetris
         self.shape = shape #the shape from the TETROMINOES dict
         self.color = COLOR[shape] #get the color of the tetrominoes
-        self.block = [Block(self, pos) for pos in TETROMINOES[self.shape]]
+        self.block = [Block(self, self.color, pos) for pos in TETROMINOES[self.shape]]
         #list of all the blocks coords of the tetromino
         
     def put_middle(self):
@@ -90,7 +90,7 @@ class Tetromino():
         for block in self.block:
             pos_block.append(block.pos)
             
-        for i in (len(pos_block)):
+        for i in range(len(pos_block)):
             if pos_block[i][1] + 1 >= len(self.grille.grille) \
                 or self.grille.grille[pos_block[i][1]+1] != None:
                 return True
@@ -102,7 +102,7 @@ class Tetromino():
         for block in self.block:
             pos_block.append(block.pos)
             
-        for i in (len(pos_block)):
+        for i in range(len(pos_block)):
             if pos_block[i][0] + 1 > len(self.grille.grille[0]) \
                 or self.grille.grille[pos_block[i][0]+1] != None:
                 return True
@@ -114,7 +114,7 @@ class Tetromino():
         for block in self.block:
             pos_block.append(block.pos)
             
-        for i in (len(pos_block)):
+        for i in range(len(pos_block)):
             if pos_block[i][0] - 1 < 0 \
                 or self.grille.grille[pos_block[i][0]-1] != None:
                 return True
