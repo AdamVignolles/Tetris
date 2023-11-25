@@ -12,7 +12,7 @@ class Game:
         self.screen = pygame.display.set_mode((850, 600))
         self.clock = pygame.time.Clock()
 
-        self.in_menu = False
+        self.in_menu = True
         self.in_pause = False
 
 
