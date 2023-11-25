@@ -27,7 +27,7 @@ class Game:
         icon = pygame.image.load("assets/img/tetris.png")
         pygame.display.set_icon(icon)
 
-        self.Tetro = Tetromino(self.grille, 'J')
+        self.Tetro = Tetromino(self.grille, 'J', self.affichage.pos_grille)
 
         running = True
         while running:
@@ -52,7 +52,7 @@ class Game:
                     self.affichage.afficher_pause(self.screen)
                 
                 for block in self.Tetro.block:
-                    self.screen.blit(block.image, block.rect)
+                    block.aficher_block(self.screen)
 
 
             for event in pygame.event.get():
@@ -75,7 +75,7 @@ class Game:
                         self.Tetro.move_tetromino('right')
 
                     if event.key == pygame.K_SPACE:
-                        pass
+                        self.Tetro.rotate()
 
 
         pygame.quit()
