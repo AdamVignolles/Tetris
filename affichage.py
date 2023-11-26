@@ -30,7 +30,10 @@ class Affichage:
             pygame.draw.line(screen, self.blanc, (self.pos_grille[0]+colonne*self.taille_case, self.pos_grille[1]), (self.pos_grille[0]+colonne*self.taille_case, self.pos_grille[1]+grille.L*self.taille_case))
 
         # afficher les cases
-        pass
+        for ligne in range(grille.L):
+            for colonne in range(grille.C):
+                if grille.get_grille()[ligne][colonne] != ".":
+                    pygame.draw.rect(screen, grille.get_grille()[ligne][colonne].color , (self.pos_grille[0]+colonne*self.taille_case+1, self.pos_grille[1]+ligne*self.taille_case+1, self.taille_case-1, self.taille_case-1))
 
     def afficher_zone_next_piece(self, screen):
         pygame.draw.rect(screen, self.blanc, (self.pos_next_piece[0], self.pos_next_piece[1], self.taille_case_next_piece, self.taille_case_next_piece), 1)
@@ -73,7 +76,7 @@ class Affichage:
         screen.blit(text_space, (self.pos_touche[0]+75, self.pos_touche[1]+235))
 
 
-    def afficher_line_level(self, screen, line, level):
+    def afficher_ligne_level(self, screen, ligne, level):
         # draw tableaux
         pygame.draw.rect(screen, self.blanc, (self.pos_line_level[0], self.pos_line_level[1], 200, 100), 1)
         pygame.draw.line(screen, self.blanc, (self.pos_line_level[0]+100, self.pos_line_level[1]), (self.pos_line_level[0]+100, self.pos_line_level[1]+100))
@@ -86,7 +89,7 @@ class Affichage:
         screen.blit(text_level, (self.pos_line_level[0]+125, self.pos_line_level[1] + 10))
 
         # draw the number
-        text_line_number = self.font_line_level.render(f"{line}", True, self.blanc)
+        text_line_number = self.font_line_level.render(f"{ligne}", True, self.blanc)
         screen.blit(text_line_number, (self.pos_line_level[0]+35, self.pos_line_level[1] + 60))
         text_level_number = self.font_line_level.render(f"{level}", True, self.blanc)
         screen.blit(text_level_number, (self.pos_line_level[0]+135, self.pos_line_level[1] + 60))

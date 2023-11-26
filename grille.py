@@ -17,10 +17,10 @@ class Grille:
         return True
     
     def supprimer_ligne(self, ligne:int):
-        for i in range(ligne, 0, -1):
-            self.grille[i] = self.grille[i-1]
-        self.grille[0] = ["." for _ in range(self.C)]
-        self.tomber_ligne()
+        for colonne in range(self.C):
+            self.grille[ligne][colonne] = "."
+        self.tomber_ligne(ligne)
+        
 
     def supprimer_lignes(self) -> int:
         count_lignes = 0
@@ -30,15 +30,25 @@ class Grille:
                 count_lignes += 1
         return count_lignes
     
-    def ajouter_piece(self, piece, ligne, colonne):
-        pass
+    def ajouter_piece(self, piece):
+        x = piece.x
+        y = piece.y
+        shape = piece.image()
+        for i in shape:
+            self.grille[i // 4 + y][i % 4 + x] = piece
+            
 
-    def tomber_ligne(self):
+    def tomber_ligne(self, ligne:int=0):
+        if ligne == self.L-1: return None
         for colonne in range(self.C):
-            for ligne in range(self.L-1, 0, -1):
-                if self.est_vide(ligne, colonne):
-                    self.grille[ligne][colonne] = self.grille[ligne-1][colonne]
-                    self.grille[ligne-1][colonne] = "."
+            self.grille[ligne][colonne] = self.grille[ligne-1][colonne]
+            self.grille[ligne-1][colonne] = "."
+        self.tomber_ligne(ligne+1)
+                
+        
+
+
+        
 
 
 if __name__ == "__main__":

@@ -2,8 +2,10 @@ import pygame
 from grille import Grille
 from affichage import Affichage
 from score import Score
-from piece import Tetromino
+#from piece import Tetromino
 from menu import Menu
+from tetromino import Tetromino
+import random
 
 class Game:
     def __init__(self):
@@ -20,6 +22,9 @@ class Game:
         self.in_menu = True
         self.in_pause = False
 
+        self.count_tour_boucle = 0
+        self.max_tour_boucle = 20
+
 
     def run(self):
 
@@ -27,7 +32,9 @@ class Game:
         icon = pygame.image.load("assets/img/tetris.png")
         pygame.display.set_icon(icon)
 
-        self.Tetro = Tetromino(self.grille, 'J', self.affichage.pos_grille)
+        random_x =  random.randint(0, 7)
+
+        self.Tetro = Tetromino(random_x, -1, self.grille)
 
         running = True
         while running:
@@ -47,12 +54,47 @@ class Game:
                 self.affichage.afficher_zone_next_piece(self.screen)
                 self.affichage.afficher_score(self.screen, self.score)
                 self.affichage.afficher_touche(self.screen)
-                self.affichage.afficher_line_level(self.screen, self.score.get_line(), self.score.get_level())
+                self.affichage.afficher_ligne_level(self.screen, self.score.get_ligne(), self.score.get_level())
+                
+                
+                # afficher le tetromino
+                shape = self.Tetro.image()
+                matrice = [[0 for _ in range(4)] for _ in range(4)]
+                for i in shape:
+                    matrice[i // 4][i % 4] = 1
+                for i in range(len(matrice)):
+                    for j in range(len(matrice[i])):
+                        if matrice[i][j] == 1:
+                            x = j * self.affichage.taille_case + self.affichage.pos_grille[0] + self.Tetro.x * self.affichage.taille_case
+                            y = i * self.affichage.taille_case + self.affichage.pos_grille[1] + self.Tetro.y * self.affichage.taille_case
+                            pygame.draw.rect(self.screen, self.Tetro.color, (x, y, self.affichage.taille_case, self.affichage.taille_case))
+            
+
                 if self.in_pause:
                     self.affichage.afficher_pause(self.screen)
+
+                else:
+                    colide_down = False
+                    if self.count_tour_boucle < self.max_tour_boucle:
+                        self.count_tour_boucle += 1
+                    else:
+                        colide_down = self.Tetro.go_down() 
+                        self.count_tour_boucle = 0
+
                 
-                for block in self.Tetro.block:
-                    block.aficher_block(self.screen)
+                if self.Tetro.collide() or colide_down == True:
+                    self.grille.ajouter_piece(self.Tetro)
+                    random_x =  random.randint(0, 7)
+                    del self.Tetro
+                    self.Tetro = Tetromino(5, -1, self.grille)   
+
+                count_lignes = 0
+                for ligne in range(self.grille.L - 1, 0, -1):
+                    if self.grille.est_remplie(ligne):
+                        count_lignes += 1
+                        self.grille.supprimer_ligne(ligne)
+                self.score.add_ligne(count_lignes)
+                self.score.add_score(self.score.score_by_nb_ligne[count_lignes])
 
 
             for event in pygame.event.get():
@@ -69,13 +111,16 @@ class Game:
                         self.in_pause = not self.in_pause
 
                     if event.key == pygame.K_LEFT:
-                        self.Tetro.move_tetromino('left')
+                        self.Tetro.go_side(-1)
 
                     if event.key == pygame.K_RIGHT:
-                        self.Tetro.move_tetromino('right')
+                        self.Tetro.go_side(1)
+
+                    if event.key == pygame.K_DOWN:
+                        self.Tetro.go_down()
 
                     if event.key == pygame.K_SPACE:
-                        self.Tetro.rotate()
+                        self.Tetro.rotate_tetromino()
 
 
         pygame.quit()
