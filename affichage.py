@@ -5,6 +5,7 @@ class Affichage:
         self.pos_grille = (325, 75)
         self.taille_case = 25
         self.blanc = (255, 255, 255)
+        self.red = (255, 0, 0)
 
         self.pos_next_piece = (675, 75)
         self.taille_case_next_piece = 100
@@ -20,6 +21,7 @@ class Affichage:
 
         self.pos_pause = (325, 250)
         self.font_pause = pygame.font.SysFont("Comic Sans MS", 50)
+
 
     def afficher_grille(self, screen, grille):
         
@@ -97,5 +99,9 @@ class Affichage:
     def afficher_pause(self, screen):
         text_pause = self.font_pause.render(f"Pause", True, self.blanc)
         screen.blit(text_pause, (self.pos_pause[0]+75, self.pos_pause[1]+25))
+
+    def afficher_game_over(self, screen):
+        text_game_over = self.font_pause.render(f"Game Over", True, self.red)
+        screen.blit(text_game_over, (self.pos_pause[0]+25, self.pos_pause[1]+25))
 
         

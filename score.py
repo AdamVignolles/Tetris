@@ -31,11 +31,12 @@ class Score:
         self.score += score
         if self.score > self.hight_score:
             self.hight_score = self.score
+            self.save_score()
 
     def add_ligne(self, ligne):
         if ligne != 0:
             self.ligne += ligne
-            if self.ligne % 10 == 0:
+            if self.ligne % 5 == 0:
                 self.level += 1
 
     def reset(self):

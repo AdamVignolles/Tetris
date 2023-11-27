@@ -18,13 +18,13 @@ class Tetromino:
         # 4x4 matrix of each tetromino shape and orientation in a list of list of list
         #each number is equal to the position in the matrix beginning at 0
         self.list_shape = [
-            [[1, 5, 9, 13], [4, 5, 6, 7]],
-            [[4, 5, 9, 10], [2, 6, 5, 9]],
-            [[6, 7, 9, 10], [1, 5, 6, 10]],
-            [[1, 2, 5, 9], [0, 4, 5, 6], [1, 5, 9, 8], [4, 5, 6, 10]],
-            [[1, 2, 6, 10], [5, 6, 7, 9], [2, 6, 10, 11], [3, 5, 6, 7]],
-            [[1, 4, 5, 6], [1, 4, 5, 9], [4, 5, 6, 9], [1, 5, 6, 9]],
-            [[1, 2, 5, 6]],
+            [[1, 5, 9, 13], [4, 5, 6, 7]], #I
+            [[4, 5, 9, 10], [2, 6, 5, 9]], #Z
+            [[6, 7, 9, 10], [1, 5, 6, 10]], #S
+            [[1, 2, 5, 9], [0, 4, 5, 6], [1, 5, 9, 8], [4, 5, 6, 10]], #T
+            [[1, 2, 6, 10], [5, 6, 7, 9], [2, 6, 10, 11], [3, 5, 6, 7]], #L
+            [[1, 4, 5, 6], [1, 4, 5, 9], [4, 5, 6, 9], [1, 5, 6, 9]], #J
+            [[1, 2, 5, 6]], #O
         ]
         #choose random shape and colors
         self.shape = random.randint(0, len(self.list_shape)-1)

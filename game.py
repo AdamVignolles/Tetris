@@ -21,9 +21,20 @@ class Game:
 
         self.in_menu = True
         self.in_pause = False
+        self.game_over = False
+
+        self.level_speed = {
+            1: 30,
+            2: 20,
+            3: 15,
+            4: 10,
+            5: 5
+        }
 
         self.count_tour_boucle = 0
-        self.max_tour_boucle = 20
+        self.max_tour_boucle = self.level_speed[self.score.get_level()]
+
+        
 
 
     def run(self):
@@ -34,7 +45,8 @@ class Game:
 
         random_x =  random.randint(0, 7)
 
-        self.Tetro = Tetromino(random_x, -1, self.grille)
+        self.Tetro = Tetromino(random_x, 0, self.grille)
+        self.next_Tetro = Tetromino(random_x, 0, self.grille)
 
         running = True
         while running:
@@ -49,6 +61,7 @@ class Game:
                 if self.menu.check_button_input():
                     self.in_menu = False
 
+
             else:
                 self.affichage.afficher_grille(self.screen, self.grille)
                 self.affichage.afficher_zone_next_piece(self.screen)
@@ -56,45 +69,73 @@ class Game:
                 self.affichage.afficher_touche(self.screen)
                 self.affichage.afficher_ligne_level(self.screen, self.score.get_ligne(), self.score.get_level())
                 
+                if not self.game_over:
+
+                    # afficher le tetromino
+                    shape = self.Tetro.image()
+                    matrice = [[0 for _ in range(4)] for _ in range(4)]
+                    for i in shape:
+                        matrice[i // 4][i % 4] = 1
+                    for i in range(len(matrice)):
+                        for j in range(len(matrice[i])):
+                            if matrice[i][j] == 1:
+                                x = j * self.affichage.taille_case + self.affichage.pos_grille[0] + self.Tetro.x * self.affichage.taille_case
+                                y = i * self.affichage.taille_case + self.affichage.pos_grille[1] + self.Tetro.y * self.affichage.taille_case
+                                pygame.draw.rect(self.screen, self.Tetro.color, (x, y, self.affichage.taille_case, self.affichage.taille_case))
+
+                    # afficher la prochaine piece
+                    shape = self.next_Tetro.image()
+                    matrice = [[0 for _ in range(4)] for _ in range(4)]
+                    for i in shape:
+                        matrice[i // 4][i % 4] = 1
+                    for i in range(len(matrice)):
+                        for j in range(len(matrice[i])):
+                            if matrice[i][j] == 1:
+                                x = self.affichage.pos_next_piece[0] + j * self.affichage.taille_case
+                                y = self.affichage.pos_next_piece[1] + i * self.affichage.taille_case
+                                pygame.draw.rect(self.screen, self.next_Tetro.color, (x, y, self.affichage.taille_case, self.affichage.taille_case))
+
                 
-                # afficher le tetromino
-                shape = self.Tetro.image()
-                matrice = [[0 for _ in range(4)] for _ in range(4)]
-                for i in shape:
-                    matrice[i // 4][i % 4] = 1
-                for i in range(len(matrice)):
-                    for j in range(len(matrice[i])):
-                        if matrice[i][j] == 1:
-                            x = j * self.affichage.taille_case + self.affichage.pos_grille[0] + self.Tetro.x * self.affichage.taille_case
-                            y = i * self.affichage.taille_case + self.affichage.pos_grille[1] + self.Tetro.y * self.affichage.taille_case
-                            pygame.draw.rect(self.screen, self.Tetro.color, (x, y, self.affichage.taille_case, self.affichage.taille_case))
-            
 
-                if self.in_pause:
-                    self.affichage.afficher_pause(self.screen)
+                    if self.in_pause:
+                        self.affichage.afficher_pause(self.screen)
 
-                else:
-                    colide_down = False
-                    if self.count_tour_boucle < self.max_tour_boucle:
-                        self.count_tour_boucle += 1
                     else:
-                        colide_down = self.Tetro.go_down() 
-                        self.count_tour_boucle = 0
+                        colide_down = False
+                        if self.count_tour_boucle < self.max_tour_boucle:
+                            self.count_tour_boucle += 1
+                        else:
+                            colide_down = self.Tetro.go_down() 
+                            self.count_tour_boucle = 0
+                            self.max_tour_boucle = self.level_speed[self.score.get_level()]
 
                 
-                if self.Tetro.collide() or colide_down == True:
+                if (self.Tetro is not None and self.Tetro.collide()) or (self.Tetro is not None and colide_down == True):
                     self.grille.ajouter_piece(self.Tetro)
                     random_x =  random.randint(0, 7)
                     del self.Tetro
-                    self.Tetro = Tetromino(5, -1, self.grille)   
+                    self.Tetro = self.next_Tetro
+                    self.next_Tetro = Tetromino(random_x, 0, self.grille)  
 
                 count_lignes = 0
                 for ligne in range(self.grille.L - 1, 0, -1):
                     if self.grille.est_remplie(ligne):
                         count_lignes += 1
                         self.grille.supprimer_ligne(ligne)
+
+                for i in range(count_lignes):
+                    self.grille.ajouter_ligne()
+
+
                 self.score.add_ligne(count_lignes)
                 self.score.add_score(self.score.score_by_nb_ligne[count_lignes])
+
+
+                if self.grille.check_lost():
+                    self.game_over = True
+                    self.Tetro = None
+                    self.next_Tetro = None
+                    self.affichage.afficher_game_over(self.screen)
 
 
             for event in pygame.event.get():
@@ -111,16 +152,20 @@ class Game:
                         self.in_pause = not self.in_pause
 
                     if event.key == pygame.K_LEFT:
-                        self.Tetro.go_side(-1)
+                        if self.Tetro is not None:
+                           self.Tetro.go_side(-1)
 
                     if event.key == pygame.K_RIGHT:
-                        self.Tetro.go_side(1)
+                        if self.Tetro is not None:
+                            self.Tetro.go_side(1)
 
                     if event.key == pygame.K_DOWN:
-                        self.Tetro.go_down()
+                        if self.Tetro is not None:
+                            self.Tetro.go_down()
 
                     if event.key == pygame.K_SPACE:
-                        self.Tetro.rotate_tetromino()
+                        if self.Tetro is not None:
+                            self.Tetro.rotate_tetromino()
 
 
         pygame.quit()

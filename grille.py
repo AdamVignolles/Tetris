@@ -17,9 +17,8 @@ class Grille:
         return True
     
     def supprimer_ligne(self, ligne:int):
-        for colonne in range(self.C):
-            self.grille[ligne][colonne] = "."
-        self.tomber_ligne(ligne)
+        # supprimmer dans la grille toute la ligne puis ajouter une ligne vide en haut
+        del self.grille[ligne]
         
 
     def supprimer_lignes(self) -> int:
@@ -32,18 +31,26 @@ class Grille:
     
     def ajouter_piece(self, piece):
         x = piece.x
-        y = piece.y
+        y = piece.y 
         shape = piece.image()
+        print(shape)
         for i in shape:
+            if shape == [6,7,9,10]:
+                print(i // 4 + y, i % 4 + x, x, y)
             self.grille[i // 4 + y][i % 4 + x] = piece
             
 
-    def tomber_ligne(self, ligne:int=0):
-        if ligne == self.L-1: return None
+    def ajouter_ligne(self):
+        #ajouter une ligne vide en haut de la grille
+        self.grille.insert(0, ["." for _ in range(self.C)])
+
+    def check_lost(self):
+        """check if a block is above the screen"""
         for colonne in range(self.C):
-            self.grille[ligne][colonne] = self.grille[ligne-1][colonne]
-            self.grille[ligne-1][colonne] = "."
-        self.tomber_ligne(ligne+1)
+            if self.grille[0][colonne] != ".":
+                return True
+        return False
+        
                 
         
 
@@ -63,7 +70,6 @@ if __name__ == "__main__":
     grille.get_grille()[0][7] = "X"
     grille.get_grille()[0][8] = "X"
     grille.get_grille()[0][9] = "X"
-    grille.tomber_ligne()
     print(grille)
     print(grille.supprimer_lignes())
     print(grille)
