@@ -1,4 +1,7 @@
+# code by : Adam V
+
 class Grille:
+    """Classe qui gère la grille de jeu"""
     def __init__(self):
         self.L = 20
         self.C = 10
@@ -7,21 +10,40 @@ class Grille:
     def __str__(self) -> str: return "\n".join([" ".join(ligne) for ligne in self.grille])
     def __repr__(self) -> str: return self.__str__()
 
-    def get_grille(self) -> list: return self.grille
+    def get_grille(self) -> list: 
+        '''
+        get the grid
+        '''
+        return self.grille
 
-    def est_vide(self, ligne:int, colonne:int) -> bool: return self.grille[ligne][colonne] == "."
+    def est_vide(self, ligne:int, colonne:int) -> bool: 
+        '''
+        return True if the case is empty
+        '''
+        return self.grille[ligne][colonne] == "."
     
     def est_remplie(self, ligne:int) -> bool:
+        '''
+        return True if the line is full
+        '''
         for colonne in range(self.C):
             if self.est_vide(ligne, colonne): return False
         return True
     
-    def supprimer_ligne(self, ligne:int):
-        # supprimmer dans la grille toute la ligne puis ajouter une ligne vide en haut
+    def supprimer_ligne(self, ligne:int) -> None:
+        '''
+        delete a line
+        args:
+            ligne: int, the line to delete
+        '''
         del self.grille[ligne]
         
 
     def supprimer_lignes(self) -> int:
+        '''
+        delete all the full lines
+        return the number of lines deleted
+        '''
         count_lignes = 0
         for ligne in range(self.L):
             if self.est_remplie(ligne): 
@@ -29,22 +51,20 @@ class Grille:
                 count_lignes += 1
         return count_lignes
     
-    def ajouter_piece(self, piece):
+    def ajouter_piece(self, piece) -> None:
+        """ajouter un tetromino dans la grille"""
         x = piece.x
         y = piece.y 
         shape = piece.image()
-        print(shape)
         for i in shape:
-            if shape == [6,7,9,10]:
-                print(i // 4 + y, i % 4 + x, x, y)
             self.grille[i // 4 + y][i % 4 + x] = piece
             
 
-    def ajouter_ligne(self):
-        #ajouter une ligne vide en haut de la grille
+    def ajouter_ligne(self) -> None:
+        """ajouter une ligne en haut de la grille"""
         self.grille.insert(0, ["." for _ in range(self.C)])
 
-    def check_lost(self):
+    def check_lost(self) -> bool:
         """check if a block is above the screen"""
         for colonne in range(self.C):
             if self.grille[0][colonne] != ".":
