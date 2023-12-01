@@ -1,4 +1,5 @@
 import pygame as pg
+#Joshua LERAS IRIARTE
 class Button():
     def __init__(self, image, pos, text_input, font, base_color):
         """Define the elements of the button : 
