@@ -1,22 +1,22 @@
 import pygame as pg
 import random
 
-COLOR = [
-    (255,0,0),
-    (0,255,0),
-    (0,0,255),
-    (255,255,0),
-    (0,255,255),
-    (255,0,255),
-    (255,255,255)
-]
-
 class Tetromino:
     def __init__(self, x, y, grille):
         
         #position x, y of the tetromino
         self.x = x
         self.y = y
+
+        self.COLOR = COLOR = [
+            (255,0,0),
+            (0,255,0),
+            (0,0,255),
+            (255,255,0),
+            (0,255,255),
+            (255,0,255),
+            (255,255,255)
+        ]
         
         # 4x4 matrix of each tetromino shape and orientation in a list of list of list
         #each number is equal to the position in the matrix beginning at 0
@@ -35,7 +35,7 @@ class Tetromino:
         ]
         #choose random shape and colors
         self.shape = random.randint(0, len(self.list_shape)-1) #choose a shape
-        self.color = random.choice(COLOR) #choose a color
+        self.color = random.choice(self.COLOR) #choose a color
         self.rotation = 0 # initial rotation
 
         self.grille = grille #call the an object Grille
