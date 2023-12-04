@@ -39,12 +39,12 @@ class Button():
         return False
     
 class Menu():
-    def __init__(self):
+    def __init__(self, title_menu, title_color='white'):
         pg.init()
 
         self.mouse_pos = pg.mouse.get_pos() #get the coordinate of the mouse on the screen
         
-        self.menu_text = pg.font.SysFont("Comic Sans MS", 100).render("Tetris", True, 'white')#get the font with pygame and display the text
+        self.menu_text = pg.font.SysFont("Comic Sans MS", 100).render(title_menu, True, title_color)#get the font with pygame and display the text
         self.menu_rect = self.menu_text.get_rect(center=(425, 100)) #Assign the center of the text object x, y coordinate
         
         self.play_button = Button(image=pg.image.load('assets/play_button.png'), \
