@@ -1,7 +1,7 @@
 import pygame as pg
 #Joshua LERAS IRIARTE
 class Button():
-    def __init__(self, image, pos, text_input, font, base_color):
+    def __init__(self, image:str, pos:tuple, text_input:str, font, base_color:str):
         """Define the elements of the button : 
         the image, position, text, font  and the color of the button"""
         self.image = image
@@ -22,14 +22,14 @@ class Button():
         self.image_rect = self.image.get_rect(center=(self.x_pos, self.y_pos))#Assign the center of the image object at x, y coordinate
         self.text_rect = self.text.get_rect(center=(self.x_pos, self.y_pos)) #Assign the center of the text object at x, y coordinate
         
-    def update(self, screen):
+    def update(self, screen) -> None:
         """Update the display of the button"""
         if self.image is not None: #if 
             screen.blit(self.image, self.image_rect)
         else:  #if no image is given, only the text
             screen.blit(self.text, self.text_rect)#display the text
     
-    def press_button(self, position):
+    def press_button(self, position) -> bool:
         """Check if the mouse press the button
         -Collision is detected if the x coordinate of the mouse is in the button
         -And if the y coordinate is in the button"""
@@ -51,7 +51,7 @@ class Menu():
                                   pos=(425,300), text_input="PLAY",\
                                   font=pg.font.SysFont("Comic Sans MS", 20), base_color='white')#Give the parameters of the button
         
-    def check_button_input(self):
+    def check_button_input(self) -> None:
         """check if the mouse clicked"""
         for event in pg.event.get():
             if event.type == pg.MOUSEBUTTONDOWN:
@@ -60,10 +60,10 @@ class Menu():
             if event.type == pg.QUIT:
                 pg.quit()
                 
-    def get_font(self, size):
+    def get_font(self, size:int) :
         """Get the default font of pygame for the button"""
         pg.font.Font(pg.font.get_default_font(), size) #the default font file is: freesansbold.ttf
         
-    def update_menu(self, screen):
+    def update_menu(self, screen) -> None:
         """Update the display of the menu"""
         screen.blit(self.menu_text, self.menu_rect) #Display the text
