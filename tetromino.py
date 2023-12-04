@@ -8,7 +8,7 @@ class Tetromino:
         self.x = x
         self.y = y
 
-        self.COLOR = COLOR = [
+        self.COLOR =[
             (255,0,0),
             (0,255,0),
             (0,0,255),
