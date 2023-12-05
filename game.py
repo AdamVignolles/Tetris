@@ -147,6 +147,8 @@ class Game:
                         self.Tetro = None
                         self.next_Tetro = None
                         self.affichage.afficher_game_over(self.screen)
+                else:
+                    self.affichage.afficher_game_over(self.screen)
 
             # pygame event loop for detecting inputs
             for event in pygame.event.get():
