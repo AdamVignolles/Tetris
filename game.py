@@ -14,7 +14,7 @@ class Game:
     the class game is the main class of the game, it manage all the game 
     '''
     def __init__(self):
-        self.menu = Menu()
+        self.menu = Menu("Tetris")
         self.button = self.menu.play_button
 
         self.grille = Grille()
