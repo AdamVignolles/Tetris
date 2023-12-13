@@ -43,6 +43,7 @@ class Game:
         self.game_over = True
         self.Tetro = None
         self.next_Tetro = None
+        self.score.quit()
 
     def init_run(self) -> None:
         pygame.init()
@@ -94,32 +95,12 @@ class Game:
                 # do the loop only if the game is not over 
                 if self.game_over:
                     self.affichage.afficher_game_over(self.screen)
-                    
+
                 else:
 
                     # afficher le tetromino
-                    shape = self.Tetro.image()
-                    matrice = [[0 for _ in range(4)] for _ in range(4)]
-                    for i in shape:
-                        matrice[i // 4][i % 4] = 1
-                    for i in range(len(matrice)):
-                        for j in range(len(matrice[i])):
-                            if matrice[i][j] == 1:
-                                x = j * self.affichage.taille_case + self.affichage.pos_grille[0] + self.Tetro.x * self.affichage.taille_case
-                                y = i * self.affichage.taille_case + self.affichage.pos_grille[1] + self.Tetro.y * self.affichage.taille_case
-                                pygame.draw.rect(self.screen, self.Tetro.color, (x, y, self.affichage.taille_case, self.affichage.taille_case))
-
-                    # afficher la prochaine piece
-                    shape = self.next_Tetro.image()
-                    matrice = [[0 for _ in range(4)] for _ in range(4)]
-                    for i in shape:
-                        matrice[i // 4][i % 4] = 1
-                    for i in range(len(matrice)):
-                        for j in range(len(matrice[i])):
-                            if matrice[i][j] == 1:
-                                x = self.affichage.pos_next_piece[0] + j * self.affichage.taille_case
-                                y = self.affichage.pos_next_piece[1] + i * self.affichage.taille_case
-                                pygame.draw.rect(self.screen, self.next_Tetro.color, (x, y, self.affichage.taille_case, self.affichage.taille_case))
+                    self.Tetro.display_tetromino(self.screen, self.affichage, True)
+                    self.next_Tetro.display_tetromino(self.screen, self.affichage, False)
 
                     # check if the tetromino is colliding with the bottom of the grid , else go down, but not if the game is paused
                     

@@ -89,17 +89,21 @@ class Tetromino:
             return True
         return False
 
-    def display_tetromino(self)-> None:
+    def display_tetromino(self, screen, affichage, current)-> None:
         """Display the tetromino"""
         shape = self.image()
         matrix = [[0 for _ in range(4)] for _ in range(4)]
         #Re-create the matrix of the tetromino:
         for block in shape: 
-            matrice[block // 4][block % 4] = 1
+            matrix[block // 4][block % 4] = 1
         #Display each blocks:
         for i in range(len(matrix)):
             for j in range(len(matrix [i])):
                 if matrix[i][j] == 1:
-                    x = j * self.affichage.taille_case + self.affichage.pos_grille[0] + self.x * self.affichage.taille_case
-                    y = i * self.affichage.taille_case + self.affichage.pos_grille[1] + self.y * self.affichage.taille_case
-                    pygame.draw.rect(self.screen, self.color, (x, y, self.affichage.taille_case, self.affichage.taille_case))
+                    if current:
+                        x = j * affichage.taille_case + affichage.pos_grille[0] + self.x * affichage.taille_case
+                        y = i * affichage.taille_case + affichage.pos_grille[1] + self.y * affichage.taille_case
+                    else:
+                        x = affichage.pos_next_piece[0] + j * affichage.taille_case
+                        y = affichage.pos_next_piece[1] + i * affichage.taille_case
+                    pg.draw.rect(screen, self.color, (x, y, affichage.taille_case, affichage.taille_case))
