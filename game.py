@@ -39,12 +39,12 @@ class Game:
         self.count_tour_boucle = 0
         self.max_tour_boucle = self.level_speed[self.score.get_level()]
 
-    def run(self) -> None:
-        '''
-        Main loop of the game
-        Manage the game state and the inputs, and call the different functions for displaying the game
-        '''
+    def is_lost(self) -> None:
+        self.game_over = True
+        self.Tetro = None
+        self.next_Tetro = None
 
+    def init_run(self) -> None:
         pygame.init()
 
         pygame.display.set_caption("Tetris")
@@ -56,8 +56,24 @@ class Game:
         self.Tetro = Tetromino(random_x, 0, self.grille)
         self.next_Tetro = Tetromino(random_x, 0, self.grille)
 
+    def is_collide(self) -> None:
+        self.grille.ajouter_piece(self.Tetro)
+        random_x =  random.randint(0, 6)
+        self.Tetro = self.next_Tetro
+        self.next_Tetro = Tetromino(random_x, 0, self.grille)  
+  
+
+    def run(self) -> None:
+        '''
+        Main loop of the game
+        Manage the game state and the inputs, and call the different functions for displaying the game
+        '''
+
+        self.init_run()
+
         # main loop
         running = True
+        
         while running:
 
             self.clock.tick(60)
@@ -73,14 +89,13 @@ class Game:
 
             else:
                 # afficher la grille
-                self.affichage.afficher_grille(self.screen, self.grille)
-                self.affichage.afficher_zone_next_piece(self.screen)
-                self.affichage.afficher_score(self.screen, self.score)
-                self.affichage.afficher_touche(self.screen)
-                self.affichage.afficher_ligne_level(self.screen, self.score.get_ligne(), self.score.get_level())
+                self.affichage.afficher_screen(self.screen, self.grille, self.score, self.score.get_ligne(), self.score.get_level())
                 
                 # do the loop only if the game is not over 
-                if not self.game_over:
+                if self.game_over:
+                    self.affichage.afficher_game_over(self.screen)
+                    
+                else:
 
                     # afficher le tetromino
                     shape = self.Tetro.image()
@@ -107,10 +122,12 @@ class Game:
                                 pygame.draw.rect(self.screen, self.next_Tetro.color, (x, y, self.affichage.taille_case, self.affichage.taille_case))
 
                     # check if the tetromino is colliding with the bottom of the grid , else go down, but not if the game is paused
-                    colide_down = False
+                    
                     if self.in_pause:
                         self.affichage.afficher_pause(self.screen)
+
                     else:
+                        colide_down = False
                         if self.count_tour_boucle < self.max_tour_boucle:
                             self.count_tour_boucle += 1
                         else:
@@ -118,13 +135,9 @@ class Game:
                             self.count_tour_boucle = 0
                             self.max_tour_boucle = self.level_speed[self.score.get_level()]
 
-                    # check the collision of the tetromino with the bottom of the grid or another tetromino
-                    if (self.Tetro is not None and self.Tetro.collide()) or (self.Tetro is not None and colide_down == True):
-                        self.grille.ajouter_piece(self.Tetro)
-                        random_x =  random.randint(0, 6)
-                        del self.Tetro
-                        self.Tetro = self.next_Tetro
-                        self.next_Tetro = Tetromino(random_x, 0, self.grille)  
+                            # check the collision of the tetromino with the bottom of the grid or another tetromino
+                            if (self.Tetro is not None and self.Tetro.collide()) or (self.Tetro is not None and colide_down == True):
+                                self.is_collide()
 
                     # check completed lines and delete them 
                     count_lignes = 0
@@ -143,17 +156,13 @@ class Game:
 
                     #check if the game is lost 
                     if self.grille.check_lost():
-                        self.game_over = True
-                        self.Tetro = None
-                        self.next_Tetro = None
-                        self.affichage.afficher_game_over(self.screen)
-                else:
-                    self.affichage.afficher_game_over(self.screen)
+                        self.is_lost()
 
             # pygame event loop for detecting inputs
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+                    self.score.quit()
 
                 if event.type == pygame.KEYDOWN:
 

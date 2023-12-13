@@ -37,6 +37,11 @@ class Score:
             data["hight_score"] = self.hight_score
             json.dump(data, f)
 
+    def quit(self):
+        if self.score > self.hight_score:
+            self.hight_score = self.score
+            self.save_score()
+
     def add_score(self, score) -> None:
         '''
         add score to the score
@@ -44,9 +49,6 @@ class Score:
             score: int
         '''
         self.score += score
-        if self.score > self.hight_score:
-            self.hight_score = self.score
-            self.save_score()
 
     def add_ligne(self, ligne) -> None:
         '''

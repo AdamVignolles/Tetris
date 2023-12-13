@@ -24,9 +24,19 @@ class Affichage:
         self.font_line_level = pygame.font.SysFont("Comic Sans MS", 15)
         # touche info
         self.pos_touche = (25, 250)
+        self.init_touche_img()
         # pause info
         self.pos_pause = (325, 250)
         self.font_pause = pygame.font.SysFont("Comic Sans MS", 50)
+
+
+    def afficher_screen(self, screen, grille, score, ligne, level) -> None:
+        self.afficher_grille(screen, grille)
+        self.afficher_zone_next_piece(screen)
+        self.afficher_score(screen, score)
+        self.afficher_touche(screen)
+        self.afficher_ligne_level(screen, score.get_ligne(), score.get_level())
+        
 
 
     def afficher_grille(self, screen, grille) -> None:
@@ -69,6 +79,27 @@ class Affichage:
         screen.blit(text_score, (self.pos_score[0]+25, self.pos_score[1]+15))
         screen.blit(text_high_score, (self.pos_score[0]+5, self.pos_score[1]+65))
 
+    def init_touche_img(self) -> None:
+        # load image
+        self.key_enter = pygame.image.load("assets/img/key_enter.png")
+        self.key_left = pygame.image.load("assets/img/key_left.png")
+        self.key_right = pygame.image.load("assets/img/key_right.png")
+        self.key_space = pygame.image.load("assets/img/key_space.png")
+
+        # resize image
+        self.key_enter = pygame.transform.scale(self.key_enter, (50, 50))
+        self.key_left = pygame.transform.scale(self.key_left, (50, 50))
+        self.key_right = pygame.transform.scale(self.key_right, (50, 50))
+        self.key_space = pygame.transform.scale(self.key_space, (50, 50))
+
+        # add text expicative
+        self.text_enter = self.font_score.render(f"Start/Pause", True, self.blanc)
+        self.text_left = self.font_score.render(f"Left", True, self.blanc)
+        self.text_right = self.font_score.render(f"Right", True, self.blanc)
+        self.text_space = self.font_score.render(f"Rotate", True, self.blanc)
+        
+        
+
     def afficher_touche(self, screen) -> None:
         '''
         Display the key to play
@@ -76,35 +107,17 @@ class Affichage:
             screen: pygame screen
         '''
 
-        # load image
-        key_enter = pygame.image.load("assets/img/key_enter.png")
-        key_left = pygame.image.load("assets/img/key_left.png")
-        key_right = pygame.image.load("assets/img/key_right.png")
-        key_space = pygame.image.load("assets/img/key_space.png")
-
-        # resize image
-        key_enter = pygame.transform.scale(key_enter, (50, 50))
-        key_left = pygame.transform.scale(key_left, (50, 50))
-        key_right = pygame.transform.scale(key_right, (50, 50))
-        key_space = pygame.transform.scale(key_space, (50, 50))
-        
-        # add text expicative
-        text_enter = self.font_score.render(f"Start/Pause", True, self.blanc)
-        text_left = self.font_score.render(f"Left", True, self.blanc)
-        text_right = self.font_score.render(f"Right", True, self.blanc)
-        text_space = self.font_score.render(f"Rotate", True, self.blanc)
-
         # blit image
-        screen.blit(key_enter, (self.pos_touche[0], self.pos_touche[1]))
-        screen.blit(key_left, (self.pos_touche[0], self.pos_touche[1]+75))
-        screen.blit(key_right, (self.pos_touche[0], self.pos_touche[1]+150))
-        screen.blit(key_space, (self.pos_touche[0], self.pos_touche[1]+225))
+        screen.blit(self.key_enter, (self.pos_touche[0], self.pos_touche[1]))
+        screen.blit(self.key_left, (self.pos_touche[0], self.pos_touche[1]+75))
+        screen.blit(self.key_right, (self.pos_touche[0], self.pos_touche[1]+150))
+        screen.blit(self.key_space, (self.pos_touche[0], self.pos_touche[1]+225))
 
         # blit text
-        screen.blit(text_enter, (self.pos_touche[0]+75, self.pos_touche[1]))
-        screen.blit(text_left, (self.pos_touche[0]+75, self.pos_touche[1]+85))
-        screen.blit(text_right, (self.pos_touche[0]+75, self.pos_touche[1]+160))
-        screen.blit(text_space, (self.pos_touche[0]+75, self.pos_touche[1]+235))
+        screen.blit(self.text_enter, (self.pos_touche[0]+75, self.pos_touche[1]))
+        screen.blit(self.text_left, (self.pos_touche[0]+75, self.pos_touche[1]+85))
+        screen.blit(self.text_right, (self.pos_touche[0]+75, self.pos_touche[1]+160))
+        screen.blit(self.text_space, (self.pos_touche[0]+75, self.pos_touche[1]+235))
 
 
     def afficher_ligne_level(self, screen, ligne, level) -> None:
